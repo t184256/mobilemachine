@@ -467,7 +467,7 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 		settings.setWrap(wrapPolicy.getSelectedIndex()==0);
 		/*settings.setMinValue(Long.parseLong(minTextVal.getString()));
 		settings.setMaxValue(Long.parseLong(minTextVal.getString()));*/
-		settings.setCorrectMinMaxValue(Long.parseLong(minTextVal.getString()), Long.parseLong(minTextVal.getString()));
+		settings.setCorrectMinMaxValue(Long.parseLong(minTextVal.getString()), Long.parseLong(maxTextVal.getString()));
 		settings.setMapping((Mapping) mappings.elementAt(mappingChoiceGroup.getSelectedIndex()));
 		
 		switchDisplayable(null, getCodeForm());//GEN-LINE:|85-entry|1|86-postAction
