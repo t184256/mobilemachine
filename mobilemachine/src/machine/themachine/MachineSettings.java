@@ -5,6 +5,8 @@
 
 package machine.themachine;
 
+import machine.themachine.mappings.SpaceSeparatedNumbersMapping;
+
 /**
  *
  * @author lantern
@@ -13,8 +15,11 @@ public class MachineSettings {
 	private boolean wrap = true;
 	private long minValue = 0;
 	private long maxValue = 255;
-	private Mapping mapping;
+	private Mapping mapping = new SpaceSeparatedNumbersMapping();
 
+	public MachineSettings() {
+	}
+	
 	public boolean isWrap() {
 		return wrap;
 	}
