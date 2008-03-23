@@ -38,10 +38,8 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	private Command settingsCommand;
 	private Command storeSettingsCommand;
 	private Command cancelSettingsCommand;
-	private Form codeForm;
-	private TextField textField;
-	private TextField definputField;
-	private Spacer spacer;
+	private Command backCommand;
+	private Command backFromDefaultInputCommand;
 	private Form executionForm;
 	private StringItem codeString;
 	private StringItem dumpString;
@@ -52,11 +50,12 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	private TextField minTextVal;
 	private ChoiceGroup wrapPolicy;
 	private ChoiceGroup mappingChoiceGroup;
-	private TextBox codeBox;
 	private List menuList;
+	private TextBox codeBox;
+	private TextBox DefaultInputBox;
 	//</editor-fold>//GEN-END:|fields|0|
-	private MachineSettings settings = new MachineSettings();
-	String code="";
+	private CodeProject project = new CodeProject();
+	private MachineSettings settings = project.getMachineSettings();
 	//</editor-fold>
 
     /**
@@ -73,7 +72,7 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 		mappings.addElement(new _123abcMapping());
 		mappings.addElement(new ZeroNumsabcABCSpaceMapping());
 		
-		settings.setMapping((Mapping) mappings.firstElement());
+		settings.setMapping((Mapping) mappings.elementAt(0));
 	}
 	
 	//<editor-fold defaultstate="collapsed" desc=" Generated Methods ">//GEN-BEGIN:|methods|0|
@@ -139,50 +138,48 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	 */
 	public void commandAction(Command command, Displayable displayable) {//GEN-END:|7-commandAction|0|7-preCommandAction
         // write pre-action user code here
-		if (displayable == codeForm) {//GEN-BEGIN:|7-commandAction|1|19-preAction
-			if (command == exitCommand) {//GEN-END:|7-commandAction|1|19-preAction
-                // write pre-action user code here
-				exitMIDlet();//GEN-LINE:|7-commandAction|2|19-postAction
-                // write post-action user code here
-			} else if (command == goToExecutionCommand) {//GEN-LINE:|7-commandAction|3|23-preAction
+		if (displayable == DefaultInputBox) {//GEN-BEGIN:|7-commandAction|1|151-preAction
+			if (command == backFromDefaultInputCommand) {//GEN-END:|7-commandAction|1|151-preAction
 				// write pre-action user code here
-				executionPreparations();//GEN-LINE:|7-commandAction|4|23-postAction
+				storeDefaultInput();//GEN-LINE:|7-commandAction|2|151-postAction
 				// write post-action user code here
-			} else if (command == settingsCommand) {//GEN-LINE:|7-commandAction|5|65-preAction
+			}//GEN-BEGIN:|7-commandAction|3|133-preAction
+		} else if (displayable == codeBox) {
+			if (command == backCommand) {//GEN-END:|7-commandAction|3|133-preAction
 				// write pre-action user code here
-				readSettings();//GEN-LINE:|7-commandAction|6|65-postAction
+				storeCode();//GEN-LINE:|7-commandAction|4|133-postAction
 				// write post-action user code here
-			}//GEN-BEGIN:|7-commandAction|7|31-preAction
+			}//GEN-BEGIN:|7-commandAction|5|31-preAction
 		} else if (displayable == executionForm) {
-			if (command == stepCommand) {//GEN-END:|7-commandAction|7|31-preAction
+			if (command == stepCommand) {//GEN-END:|7-commandAction|5|31-preAction
 				// write pre-action user code here
-				step();//GEN-LINE:|7-commandAction|8|31-postAction
+				step();//GEN-LINE:|7-commandAction|6|31-postAction
 				// write post-action user code here
-			} else if (command == terminateCommand) {//GEN-LINE:|7-commandAction|9|26-preAction
+			} else if (command == terminateCommand) {//GEN-LINE:|7-commandAction|7|26-preAction
 				// write pre-action user code here
-				switchDisplayable(null, getCodeForm());//GEN-LINE:|7-commandAction|10|26-postAction
+				switchDisplayable(null, getMenuList());//GEN-LINE:|7-commandAction|8|26-postAction
 				// write post-action user code here
-			}//GEN-BEGIN:|7-commandAction|11|115-preAction
+			}//GEN-BEGIN:|7-commandAction|9|115-preAction
 		} else if (displayable == menuList) {
-			if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|11|115-preAction
+			if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|9|115-preAction
 				// write pre-action user code here
-				menuListAction();//GEN-LINE:|7-commandAction|12|115-postAction
+				menuListAction();//GEN-LINE:|7-commandAction|10|115-postAction
 				// write post-action user code here
-			}//GEN-BEGIN:|7-commandAction|13|105-preAction
+			}//GEN-BEGIN:|7-commandAction|11|105-preAction
 		} else if (displayable == settingsForm) {
-			if (command == cancelSettingsCommand) {//GEN-END:|7-commandAction|13|105-preAction
+			if (command == cancelSettingsCommand) {//GEN-END:|7-commandAction|11|105-preAction
 				// write pre-action user code here
-				switchDisplayable(null, getCodeForm());//GEN-LINE:|7-commandAction|14|105-postAction
+//GEN-LINE:|7-commandAction|12|105-postAction
 				// write post-action user code here
-			} else if (command == storeSettingsCommand) {//GEN-LINE:|7-commandAction|15|75-preAction
+			} else if (command == storeSettingsCommand) {//GEN-LINE:|7-commandAction|13|75-preAction
 				// write pre-action user code here
-				storeSettings();//GEN-LINE:|7-commandAction|16|75-postAction
+				storeSettings();//GEN-LINE:|7-commandAction|14|75-postAction
 				// write post-action user code here
-			}//GEN-BEGIN:|7-commandAction|17|7-postCommandAction
-		}//GEN-END:|7-commandAction|17|7-postCommandAction
+			}//GEN-BEGIN:|7-commandAction|15|7-postCommandAction
+		}//GEN-END:|7-commandAction|15|7-postCommandAction
         // write post-action user code here
-	}//GEN-BEGIN:|7-commandAction|18|
-	//</editor-fold>//GEN-END:|7-commandAction|18|
+	}//GEN-BEGIN:|7-commandAction|16|
+	//</editor-fold>//GEN-END:|7-commandAction|16|
 
 
 	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: exitCommand ">//GEN-BEGIN:|18-getter|0|18-preInit
@@ -215,25 +212,23 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	}
 	//</editor-fold>//GEN-END:|22-getter|2|
 
-
-
 	//<editor-fold defaultstate="collapsed" desc=" Generated Method: executionPreparations ">//GEN-BEGIN:|48-entry|0|49-preAction
 	/**
 	 * Performs an action assigned to the executionPreparations entry-point.
 	 */
 	public void executionPreparations() {//GEN-END:|48-entry|0|49-preAction
-		code=textField.getString();
-		intie = new machine.themachine.Interpreter(textField.getString(), settings);
+		//textField.getString();
+		intie = new machine.themachine.Interpreter(project.getCode(), project.getMachineSettings());
 		
 		switchDisplayable(null, getExecutionForm());//GEN-LINE:|48-entry|1|49-postAction
 		// write post-action user code here
-		codeForm.setTitle("Debug");
+		//codeForm.setTitle("Debug");
 		codeString.setLabel("Code:\n");
 		codeString.setText(getPositionedCode());
 		dumpString.setLabel("Dump:\n");
 		dumpString.setText(intie.dump());
 		outputString.setText("");
-		inputField.setString(definputField.getString());
+		inputField.setString(project.getDefaultInput());
 		
 	}//GEN-BEGIN:|48-entry|2|
 	//</editor-fold>//GEN-END:|48-entry|2|
@@ -253,8 +248,6 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	}
 	//</editor-fold>//GEN-END:|64-getter|2|
 
-
-
 	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: terminateCommand ">//GEN-BEGIN:|25-getter|0|25-preInit
 	/**
 	 * Returns an initiliazed instance of terminateCommand component.
@@ -270,41 +263,9 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	}
 	//</editor-fold>//GEN-END:|25-getter|2|
 
-	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: codeForm ">//GEN-BEGIN:|14-getter|0|14-preInit
-	/**
-	 * Returns an initiliazed instance of codeForm component.
-	 * @return the initialized component instance
-	 */
-	public Form getCodeForm() {
-		if (codeForm == null) {//GEN-END:|14-getter|0|14-preInit
-			// write pre-init user code here
-			codeForm = new Form("Welcome", new Item[] { getTextField(), getDefinputField(), getSpacer() });//GEN-BEGIN:|14-getter|1|14-postInit
-			codeForm.addCommand(getExitCommand());
-			codeForm.addCommand(getGoToExecutionCommand());
-			codeForm.addCommand(getSettingsCommand());
-			codeForm.setCommandListener(this);//GEN-END:|14-getter|1|14-postInit
-			// write post-init user code here
-		}//GEN-BEGIN:|14-getter|2|
-		return codeForm;
-	}
-	//</editor-fold>//GEN-END:|14-getter|2|
 
-	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: textField ">//GEN-BEGIN:|28-getter|0|28-preInit
-	/**
-	 * Returns an initiliazed instance of textField component.
-	 * @return the initialized component instance
-	 */
-	public TextField getTextField() {
-		if (textField == null) {//GEN-END:|28-getter|0|28-preInit
-			// write pre-init user code here
-			textField = new TextField("Enter code here: ", null, 128, TextField.ANY | TextField.NON_PREDICTIVE);//GEN-BEGIN:|28-getter|1|28-postInit
-			textField.setLayout(ImageItem.LAYOUT_DEFAULT);
-			textField.setInitialInputMode("+-[]<>.,");//GEN-END:|28-getter|1|28-postInit
-			// write post-init user code here
-		}//GEN-BEGIN:|28-getter|2|
-		return textField;
-	}
-	//</editor-fold>//GEN-END:|28-getter|2|
+
+
 
 	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: executionForm ">//GEN-BEGIN:|21-getter|0|21-preInit
 	/**
@@ -449,7 +410,7 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 		settings.setCorrectMinMaxValue(Long.parseLong(minTextVal.getString()), Long.parseLong(maxTextVal.getString()));
 		settings.setMapping((Mapping) mappings.elementAt(mappingChoiceGroup.getSelectedIndex()));
 		
-		switchDisplayable(null, getCodeForm());//GEN-LINE:|85-entry|1|86-postAction
+		switchDisplayable(null, getMenuList());//GEN-LINE:|85-entry|1|86-postAction
 		// write post-action user code here
 	}//GEN-BEGIN:|85-entry|2|
 	//</editor-fold>//GEN-END:|85-entry|2|
@@ -502,8 +463,6 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	}
 	//</editor-fold>//GEN-END:|100-getter|2|
 
-
-
 	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: cancelSettingsCommand ">//GEN-BEGIN:|104-getter|0|104-preInit
 	/**
 	 * Returns an initiliazed instance of cancelSettingsCommand component.
@@ -518,36 +477,6 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 		return cancelSettingsCommand;
 	}
 	//</editor-fold>//GEN-END:|104-getter|2|
-
-	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: definputField ">//GEN-BEGIN:|108-getter|0|108-preInit
-	/**
-	 * Returns an initiliazed instance of definputField component.
-	 * @return the initialized component instance
-	 */
-	public TextField getDefinputField() {
-		if (definputField == null) {//GEN-END:|108-getter|0|108-preInit
-			// write pre-init user code here
-			definputField = new TextField("Default input:", null, 32, TextField.ANY);//GEN-LINE:|108-getter|1|108-postInit
-			// write post-init user code here
-		}//GEN-BEGIN:|108-getter|2|
-		return definputField;
-	}
-	//</editor-fold>//GEN-END:|108-getter|2|
-
-	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: spacer ">//GEN-BEGIN:|109-getter|0|109-preInit
-	/**
-	 * Returns an initiliazed instance of spacer component.
-	 * @return the initialized component instance
-	 */
-	public Spacer getSpacer() {
-		if (spacer == null) {//GEN-END:|109-getter|0|109-preInit
-			// write pre-init user code here
-			spacer = new Spacer(16, 20);//GEN-LINE:|109-getter|1|109-postInit
-			// write post-init user code here
-		}//GEN-BEGIN:|109-getter|2|
-		return spacer;
-	}
-	//</editor-fold>//GEN-END:|109-getter|2|
 
 	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: mappingChoiceGroup ">//GEN-BEGIN:|112-getter|0|112-preInit
 	/**
@@ -577,7 +506,9 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	public TextBox getCodeBox() {
 		if (codeBox == null) {//GEN-END:|113-getter|0|113-preInit
 			// write pre-init user code here
-			codeBox = new TextBox("Enter code here.", null, 1024, TextField.URL | TextField.NON_PREDICTIVE);//GEN-LINE:|113-getter|1|113-postInit
+			codeBox = new TextBox("Enter code here.", null, 1024, TextField.URL | TextField.NON_PREDICTIVE);//GEN-BEGIN:|113-getter|1|113-postInit
+			codeBox.addCommand(getBackCommand());
+			codeBox.setCommandListener(this);//GEN-END:|113-getter|1|113-postInit
 			// write post-init user code here
 		}//GEN-BEGIN:|113-getter|2|
 		return codeBox;
@@ -595,9 +526,11 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 			menuList = new List("list", Choice.IMPLICIT);//GEN-BEGIN:|114-getter|1|114-postInit
 			menuList.append("Code", null);
 			menuList.append("Debug", null);
+			menuList.append("Edit default input", null);
+			menuList.append("Settings", null);
 			menuList.append("Exit", null);
 			menuList.setCommandListener(this);
-			menuList.setSelectedFlags(new boolean[] { false, false, false });//GEN-END:|114-getter|1|114-postInit
+			menuList.setSelectedFlags(new boolean[] { false, false, false, false, false });//GEN-END:|114-getter|1|114-postInit
 			// write post-init user code here
 		}//GEN-BEGIN:|114-getter|2|
 		return menuList;
@@ -614,21 +547,124 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 		if (__selectedString != null) {
 			if (__selectedString.equals("Code")) {//GEN-END:|114-action|1|117-preAction
 				// write pre-action user code here
-				switchDisplayable(null, getCodeBox());//GEN-LINE:|114-action|2|117-postAction
+				readCode();//GEN-LINE:|114-action|2|117-postAction
 				// write post-action user code here
 			} else if (__selectedString.equals("Debug")) {//GEN-LINE:|114-action|3|118-preAction
 				// write pre-action user code here
 				executionPreparations();//GEN-LINE:|114-action|4|118-postAction
 				// write post-action user code here
-			} else if (__selectedString.equals("Exit")) {//GEN-LINE:|114-action|5|121-preAction
+			} else if (__selectedString.equals("Edit default input")) {//GEN-LINE:|114-action|5|127-preAction
 				// write pre-action user code here
-				exitMIDlet();//GEN-LINE:|114-action|6|121-postAction
+				readDefaultInput();//GEN-LINE:|114-action|6|127-postAction
 				// write post-action user code here
-			}//GEN-BEGIN:|114-action|7|114-postAction
-		}//GEN-END:|114-action|7|114-postAction
+			} else if (__selectedString.equals("Settings")) {//GEN-LINE:|114-action|7|123-preAction
+				// write pre-action user code here
+				readSettings();//GEN-LINE:|114-action|8|123-postAction
+				// write post-action user code here
+			} else if (__selectedString.equals("Exit")) {//GEN-LINE:|114-action|9|121-preAction
+				// write pre-action user code here
+				exitMIDlet();//GEN-LINE:|114-action|10|121-postAction
+				// write post-action user code here
+			}//GEN-BEGIN:|114-action|11|114-postAction
+		}//GEN-END:|114-action|11|114-postAction
 		// enter post-action user code here
-	}//GEN-BEGIN:|114-action|8|
-	//</editor-fold>//GEN-END:|114-action|8|
+	}//GEN-BEGIN:|114-action|12|
+	//</editor-fold>//GEN-END:|114-action|12|
+
+	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: DefaultInputBox ">//GEN-BEGIN:|131-getter|0|131-preInit
+	/**
+	 * Returns an initiliazed instance of DefaultInputBox component.
+	 * @return the initialized component instance
+	 */
+	public TextBox getDefaultInputBox() {
+		if (DefaultInputBox == null) {//GEN-END:|131-getter|0|131-preInit
+			// write pre-init user code here
+			DefaultInputBox = new TextBox("DefaultInput", "", 100, TextField.ANY);//GEN-BEGIN:|131-getter|1|131-postInit
+			DefaultInputBox.addCommand(getBackFromDefaultInputCommand());
+			DefaultInputBox.setCommandListener(this);//GEN-END:|131-getter|1|131-postInit
+			// write post-init user code here
+		}//GEN-BEGIN:|131-getter|2|
+		return DefaultInputBox;
+	}
+	//</editor-fold>//GEN-END:|131-getter|2|
+
+	//<editor-fold defaultstate="collapsed" desc=" Generated Method: storeCode ">//GEN-BEGIN:|134-entry|0|135-preAction
+	/**
+	 * Performs an action assigned to the storeCode entry-point.
+	 */
+	public void storeCode() {//GEN-END:|134-entry|0|135-preAction
+		// write pre-action user code here
+		project.setCode(getCodeBox().getString());
+		switchDisplayable(null, getMenuList());//GEN-LINE:|134-entry|1|135-postAction
+		// write post-action user code here
+	}//GEN-BEGIN:|134-entry|2|
+	//</editor-fold>//GEN-END:|134-entry|2|
+
+	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: backCommand ">//GEN-BEGIN:|132-getter|0|132-preInit
+	/**
+	 * Returns an initiliazed instance of backCommand component.
+	 * @return the initialized component instance
+	 */
+	public Command getBackCommand() {
+		if (backCommand == null) {//GEN-END:|132-getter|0|132-preInit
+			// write pre-init user code here
+			backCommand = new Command("Back", Command.BACK, 0);//GEN-LINE:|132-getter|1|132-postInit
+			// write post-init user code here
+		}//GEN-BEGIN:|132-getter|2|
+		return backCommand;
+	}
+	//</editor-fold>//GEN-END:|132-getter|2|
+
+	//<editor-fold defaultstate="collapsed" desc=" Generated Method: readCode ">//GEN-BEGIN:|138-entry|0|139-preAction
+	/**
+	 * Performs an action assigned to the readCode entry-point.
+	 */
+	public void readCode() {//GEN-END:|138-entry|0|139-preAction
+		// write pre-action user code here
+		switchDisplayable(null, getCodeBox());//GEN-LINE:|138-entry|1|139-postAction
+		// write post-action user code here
+		getCodeBox().setString(project.getCode());
+	}//GEN-BEGIN:|138-entry|2|
+	//</editor-fold>//GEN-END:|138-entry|2|
+
+	//<editor-fold defaultstate="collapsed" desc=" Generated Method: storeDefaultInput ">//GEN-BEGIN:|144-entry|0|145-preAction
+	/**
+	 * Performs an action assigned to the storeDefaultInput entry-point.
+	 */
+	public void storeDefaultInput() {//GEN-END:|144-entry|0|145-preAction
+		// write pre-action user code here
+		project.setDefaultInput(getDefaultInputBox().getString());
+		switchDisplayable(null, getMenuList());//GEN-LINE:|144-entry|1|145-postAction
+		// write post-action user code here
+	}//GEN-BEGIN:|144-entry|2|
+	//</editor-fold>//GEN-END:|144-entry|2|
+
+	//<editor-fold defaultstate="collapsed" desc=" Generated Method: readDefaultInput ">//GEN-BEGIN:|146-entry|0|147-preAction
+	/**
+	 * Performs an action assigned to the readDefaultInput entry-point.
+	 */
+	public void readDefaultInput() {//GEN-END:|146-entry|0|147-preAction
+		// write pre-action user code here
+		switchDisplayable(null, getDefaultInputBox());//GEN-LINE:|146-entry|1|147-postAction
+		// write post-action user code here
+		getDefaultInputBox().setString(project.getDefaultInput());
+	}//GEN-BEGIN:|146-entry|2|
+	//</editor-fold>//GEN-END:|146-entry|2|
+
+	//<editor-fold defaultstate="collapsed" desc=" Generated Getter: backFromDefaultInputCommand ">//GEN-BEGIN:|150-getter|0|150-preInit
+	/**
+	 * Returns an initiliazed instance of backFromDefaultInputCommand component.
+	 * @return the initialized component instance
+	 */
+	public Command getBackFromDefaultInputCommand() {
+		if (backFromDefaultInputCommand == null) {//GEN-END:|150-getter|0|150-preInit
+			// write pre-init user code here
+			backFromDefaultInputCommand = new Command("Back", Command.BACK, 0);//GEN-LINE:|150-getter|1|150-postInit
+			// write post-init user code here
+		}//GEN-BEGIN:|150-getter|2|
+		return backFromDefaultInputCommand;
+	}
+	//</editor-fold>//GEN-END:|150-getter|2|
 
     /**
      * Returns a display instance.
@@ -698,6 +734,7 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	public String getPositionedCode() {
 		int pos = intie.getPos();
 		String res = "";
+		String code = project.getCode();
 		if (code.length()!=0 && pos<code.length())
 		{
 			res = "(" + code.charAt(pos) + ")";
